@@ -1,58 +1,36 @@
 """
-Завдання 2. Рекурсія. Створення фрактала “дерево Піфагора” за допомогою рекурсіїНеобхідно написати програму на Python, яка використовує рекурсію для створення фрактала “дерево Піфагора”.
+Завдання 2. Рекурсія. Створення фрактала “дерево Піфагора” за допомогою рекурсії Необхідно написати програму на Python, яка використовує рекурсію для створення фрактала “дерево Піфагора”.
 Програма має візуалізувати фрактал “дерево Піфагора”, і користувач повинен мати можливість вказати рівень рекурсії.
 """
 import turtle
+import math
 
-def draw_pythagorean_tree(t, level, size, angle):
+def draw_pythagoras_tree(t, length, level):
     if level == 0:
-        return
+        t.forward(length)
+        t.backward(length)
+    else:
+        t.forward(length)
+        t.left(45)
+        draw_pythagoras_tree(t, length / math.sqrt(2), level - 1)
+        t.right(90)
+        draw_pythagoras_tree(t, length / math.sqrt(2), level - 1)
+        t.left(45)
+        t.backward(length)
 
-    # Draw the square
-    t.forward(size)
-    t.left(90)
-    t.forward(size)
-    t.left(90)
-    t.forward(size)
-    t.left(90)
-    t.forward(size)
-    t.left(90)
-
-    # Draw the first subtree
-    t.forward(size)
-    t.left(angle)
-    draw_pythagorean_tree(t, level - 1, size * 0.707, angle)
-    t.right(angle)
-
-    # Draw the second subtree
-    t.backward(size)
-    t.right(angle)
-    t.forward(size)
-    draw_pythagorean_tree(t, level - 1, size * 0.707, angle)
-    t.left(angle)
-    t.backward(size)
-
-
-# Setup
 screen = turtle.Screen()
-screen.setup(width=800, height=600)
-screen.title("Pythagorean Tree Fractal")
+screen.title("Pythagoras Tree")
 
 t = turtle.Turtle()
-t.speed(0)  # Fastest speed
-
-# User input for recursion level
-level = int(input("Enter the recursion level (e.g., 5): "))
-
-# Set initial position and angle
+t.speed(0)
 t.penup()
-t.goto(-200, -200)
+t.goto(0, -200)
 t.pendown()
-t.setheading(90)
+t.left(90)
 
-# Draw the Pythagorean Tree fractal
-draw_pythagorean_tree(t, level, 100, 45)
+level = int(screen.textinput("Pythagoras Tree", "Enter the level of recursion:"))
 
-# Hide Turtle and display
-t.hideturtle()
+draw_pythagoras_tree(t, 100, level)
+
 screen.mainloop()
+
